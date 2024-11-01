@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: second-app-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: second-app
+    template: # This is automatically a POD kind
+        metadata:
+            labels:
+                app: second-app
+        spec:
+            containers:
+                - name: second-node
+                  image: locoioioi/kub-first-app:v2
+                  livenessProbe:
+                      httpGet:
+                          path: /
+                          port: 8080
+                      periodSeconds: 10
+                      initialDelaySeconds: 5
